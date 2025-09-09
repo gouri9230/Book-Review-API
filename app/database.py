@@ -10,3 +10,10 @@ engine = create_engine(DATABASE_URL)
 session_local = sessionmaker(autocommit = False, autoflush=False, bind=engine)
 # all models & tables that we create will be extending this Base class
 Base = declarative_base()
+
+def get_db():
+    db = session_local()
+    try:
+        yield db
+    finally:
+        db.close()
